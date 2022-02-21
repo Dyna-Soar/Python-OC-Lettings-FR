@@ -14,6 +14,9 @@ class Address(models.Model):
     def __str__(self):
         return f'{self.number} {self.street}'
 
+    class Meta:
+        verbose_name_plural = "Addresses"
+
 
 class Letting(models.Model):
     title = models.CharField(max_length=256)
