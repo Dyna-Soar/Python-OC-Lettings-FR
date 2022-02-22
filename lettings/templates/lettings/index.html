@@ -4,7 +4,7 @@
     <ul>
     {% for letting in lettings_list %}
         <li>
-            <a href="{% url 'letting' letting_id=letting.id %}">
+            <a href="{% url 'lettings:letting' letting_id=letting.id %}">
                 {{ letting.title }}
             </a>
         </li>
@@ -14,4 +14,4 @@
     <p>No lettings are available.</p>
 {% endif %}
 <div><a href="{% url 'index' %}">Home</a></div>
-<div><a href="{% url 'profiles_index' %}">Profiles</a></div>
+<div><a href="{% url 'profiles:profiles_index' %}">Profiles</a></div>

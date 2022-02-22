@@ -3,6 +3,6 @@
 <p>{{ address.number }} {{ address.street }}</p>
 <p>{{ address.city }}, {{ address.state }} {{ address.zip_code }}</p>
 <p>{{ address.country_iso_code }}</p>
-<div><a href="{% url 'lettings_index' %}">Back</a></div>
+<div><a href="{% url 'lettings:lettings_index' %}">Back</a></div>
 <div><a href="{% url 'index' %}">Home</a></div>
-<div><a href="{% url 'profiles_index' %}">Profiles</a></div>
+<div><a href="{% url 'profiles:profiles_index' %}">Profiles</a></div>
