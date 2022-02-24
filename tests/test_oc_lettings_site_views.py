@@ -1,10 +1,13 @@
 import pytest
+
 from django.test import Client
+from django.urls import reverse
 
 c = Client()
 
 
+@pytest.mark.django_db
 def test_index():
-    response = c.get('')
+    response = c.get(reverse('index'))
     assert response.status_code == 200
-    assert response.data == b'Holiday Homes'
+    assert b'Holiday Homes' in response.content
