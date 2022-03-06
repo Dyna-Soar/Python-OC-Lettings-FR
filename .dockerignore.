@@ -1,0 +1,8 @@
+.circleci
+.pytest_cache
+.git
+.gitignore
+venv
+README.md
+**/__pycache__
+*.pyc
