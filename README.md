@@ -75,3 +75,30 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+
+## Déploiement
+
+Le déploiement est automatisé par une pipeline CICD configurée dans le dossier `.circleci`. 
+Le déploiement s'effectue de la façon suivante:
+- CircleCi repère une modification sur la branche master du repo github;
+- CircleCi interprète dès lors le fichier `.circle/config.yml`;
+- La pipeline valide le bon fonctionnement de l'application;
+- Si les tests sont validés, CircleCi interprète le fichier `Dockerfile`, puis construit et déploie une image sur doker hub;
+- Enfin CircleCi enregistre l'image sur le repo à conteneurs de Heroku et déploie l'application.
+
+### Prérequis
+- Compte CircleCi
+- Compte Docker
+- Compte Heroku
+- Compte Sentry
+
+#### CircleCi
+- Lier CircleCi à au repo github
+- Configurer les variables d'environnement suivantes: HEROKU_API_KEY, HEROKU_APP_NAME, HUB_NAME, HUB_PSWD.
+
+#### Sentry
+- Demander et conserver le token api de Sentry
+
+#### Heroku
+- Créer une application
+- Configurer les variables d'environnement suivantes: SECRET_KEY et SENTRY_DSN.
