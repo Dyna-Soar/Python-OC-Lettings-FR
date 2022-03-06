@@ -7,6 +7,8 @@ jobs:
       - checkout
       - run:
           name: run tests
+          env:
+            SECRET_KEY: 6#j()_k=m8m%#h@pi@x(kl*go#(qofe6a=0p62#_7an&sn^t88
           command: |
             pip install -r requirements.txt
             pytest
