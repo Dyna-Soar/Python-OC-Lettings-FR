@@ -25,7 +25,7 @@ jobs:
           name: push to dockerhub
           command: |
             docker login -u ${HUB_NAME} -p ${HUB_PSWD}
-            docker build -t ${HUB_NAME}/test-cicd:$CIRCLE_SHA1 .
+            docker build -t ${HUB_NAME}/oc-lettings-tb:$CIRCLE_SHA1 .
             docker push ${HUB_NAME}/oc-lettings-tb:$CIRCLE_SHA1
 
   deploy-image-to-heroku:
