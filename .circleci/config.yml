@@ -1,0 +1,62 @@
+version: 2.1
+jobs:
+  build-and-test:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: run tests
+          command: |
+            pip install -r requirements.txt
+            pytest
+            flake8
+          store_test_results:
+              path: test-results
+          store_artifacts:
+              path: test-results
+              destination: tr1
+
+  push-dockerhub:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: push to dockerhub
+          command: |
+            docker login -u ${HUB_NAME} -p ${HUB_PSWD}
+            docker build -t ${HUB_NAME}/test-cicd:$CIRCLE_SHA1 .
+            docker push ${HUB_NAME}/oc-lettings-tb:$CIRCLE_SHA1
+
+  deploy-image-to-heroku:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Deploy image to heroku
+          command: |
+            curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a ${HEROKU_APP_NAME} web
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a ${HEROKU_APP_NAME} web
+
+
+workflows:
+  build-test-deploy:
+    jobs:
+
+      - build-and-test
+
+      - push-dockerhub:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only: master
+
+      - deploy-image-to-heroku:
+          requires:
+            - push-dockerhub
+          filters:
+            branches:
+              only: master
